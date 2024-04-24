@@ -19,7 +19,7 @@ module.exports = {
     await queryInterface.bulkInsert('Users', [{
       name: 'Danu Dwiki Laksana',
       email: 'd2laksana.dev@gmail.com',
-      password: bcrypt.hashSync('password', 14),
+      password: bcrypt.hashSync('password', 10),
       role: 'admin',
       apikey: genApiKey()
     }], {});

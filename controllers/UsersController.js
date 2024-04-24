@@ -32,8 +32,7 @@ async function store(req, res) {
                 return res.status(400).json({
                     success: false,
                     code: 400,
-                    message: err.message,
-                    data: data
+                    message: err.message
                 });
             }
 
@@ -74,7 +73,7 @@ async function show(req, res) {
 
 async function detail(req, res) {
     try {
-        const user = await Users.findByPk(req.params.id)
+        const user = await Users.findByPk(req.params.id);
         if (!user) return response404(res, 'User tidak ditemukan');
 
         return res.json({
@@ -88,8 +87,49 @@ async function detail(req, res) {
     }
 }
 
+async function update(req, res) {
+    try {
+        const user = await Users.findByPk(req.params.id);
+        if (!user) return response404(res, 'User tidak ditemukan');
+
+        user.name = req.body.name || user.name;
+        user.email = req.body.email || user.email
+
+        await user.save();
+
+        return res.status(200).json({
+            success: true,
+            code: 200,
+            message: 'Data berhasil di update',
+            data: user
+        })
+
+    } catch (err) {
+        return response500(res, err.message)
+    }
+}
+
+async function destroy(req, res) {
+    try {
+        const user = await Users.findByPk(req.params.id);
+        if (!user) return response404(res, 'User tidak ditemukan');
+
+        await user.destroy();
+
+        return res.status(200).json({
+            success: true,
+            code: 200,
+            message: 'Data berhasil dihapus'
+        });
+    } catch (err) {
+        return response500(res, err.message);
+    }
+}
+
 module.exports = {
     store,
     show,
-    detail
+    detail,
+    update,
+    destroy
 }

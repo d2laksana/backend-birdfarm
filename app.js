@@ -6,7 +6,9 @@ const cors = require('cors');
 const JwtMiddleware = require('./middlewares/jwtMiddleware');
 require('dotenv').config();
 
-const UserRoute = require('./routes/UserRoute')
+const UserRoute = require('./routes/UserRoute');
+const AuthRoute = require('./routes/AuthRoute');
+const TempRoute = require('./routes/TempRoute');
 
 
 const app = express();
@@ -23,7 +25,9 @@ app.use(cors());
 app.get('/', (req, res) => {
     res.send('Hello World!')
 });
-app.use('/api/user', UserRoute);
+app.use('/api/user', JwtMiddleware, UserRoute);
+app.use('/api/auth', AuthRoute);
+app.use('/api/suhu', TempRoute);
 
 
 

@@ -7,7 +7,7 @@ require('dotenv').config()
 
 async function JwtMiddleware(req, res, next) {
     try {
-        const token = req.header('Authorization').split('')[1];
+        const token = req.header('Authorization').split(' ')[1];
 
         // verif token
         const decode = jwt.verify(token, process.env.JWT_SECRET);
@@ -19,8 +19,8 @@ async function JwtMiddleware(req, res, next) {
         if (!user) return response401(res);
 
         next();
-    } catch {
-        return response401(res);
+    } catch (err) {
+        return response401(res, err.message);
     }
 }
 
