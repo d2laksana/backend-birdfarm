@@ -2,21 +2,25 @@
 
 const { body, header } = require("express-validator");
 const Users = require("../models/users");
-const { response404 } = require("../helpers/response");
 
 
-const apiKeyValidator = [
+const storeSuhuValidator = [
     header('x-api-key')
-        .isEmpty()
+        .notEmpty()
         .withMessage('Api Key tidak boleh kosong')
         .custom(async value => {
             const user = await Users.findOne({ where: { apikey: value } });
-            if (!user) throw new Error('Api Key tidak valid')
+            if (!user) {
+                throw new Error('Api Key tidak valid');
+            }
+            return true;
         }),
     body('temp')
-        .isEmpty()
+        .notEmpty()
         .withMessage('Temperature tidak boleh kosong'),
     body('hum')
-        .isEmpty()
+        .notEmpty()
         .withMessage('Humidity tidak boleh kosong')
 ]
+
+module.exports = storeSuhuValidator;

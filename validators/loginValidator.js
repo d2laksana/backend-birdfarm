@@ -13,3 +13,5 @@ const loginValidator = [
         .isLength({ min: 8 })
         .withMessage('Password harus 8 karakter')
 ]
+
+module.exports = loginValidator;

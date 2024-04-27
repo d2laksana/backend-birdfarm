@@ -24,25 +24,17 @@ async function store(req, res) {
             name: req.body.name,
             email: req.body.email,
             password: hashedPass,
-            apikey: genApiKey()
+            apikey: await genApiKey()
         };
-        console.log(typeof (hashedPass));
-        const newUser = await Users.create(data, (err, user) => {
-            if (err) {
-                return res.status(400).json({
-                    success: false,
-                    code: 400,
-                    message: err.message
-                });
-            }
-
+        const newUser = await Users.create(data)
+        if (newUser) {
             return res.status(201).json({
                 success: true,
                 code: 201,
                 message: 'Berhasil menambahkan user',
-                data: user
+                data: data
             });
-        });
+        };
 
     } catch (err) {
         return res.status(500).json({

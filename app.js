@@ -8,7 +8,7 @@ require('dotenv').config();
 
 const UserRoute = require('./routes/UserRoute');
 const AuthRoute = require('./routes/AuthRoute');
-const TempRoute = require('./routes/TempRoute');
+const IOTRoute = require('./routes/IOTRoute');
 
 
 const app = express();
@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
 });
 app.use('/api/user', JwtMiddleware, UserRoute);
 app.use('/api/auth', AuthRoute);
-app.use('/api/suhu', TempRoute);
+app.use('/api/iot', IOTRoute);
 
 
 
