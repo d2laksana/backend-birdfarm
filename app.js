@@ -9,6 +9,7 @@ require('dotenv').config();
 const UserRoute = require('./routes/UserRoute');
 const AuthRoute = require('./routes/AuthRoute');
 const IOTRoute = require('./routes/IOTRoute');
+const FireRoute = require('./routes/FireRoute');
 
 
 const app = express();
@@ -28,9 +29,11 @@ app.get('/', (req, res) => {
 app.use('/api/user', JwtMiddleware, UserRoute);
 app.use('/api/auth', AuthRoute);
 app.use('/api/iot', IOTRoute);
-
+app.use('/api/fire', FireRoute);
 
 
 app.listen(process.env.PORT, () => {
     console.log(`Server berjalan pada port ${process.env.PORT}`);
 })
+
+module.exports = app;
