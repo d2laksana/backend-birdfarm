@@ -15,8 +15,8 @@ async function getRelay(req, res) {
 
         const apikey = req.headers['x-api-key'];
 
-        const relay = ref(dbFire, 'relay');
-        get(child(relay, apikey + '/value')).then((snapshot) => {
+        const relay = ref(dbFire, apikey);
+        get(child(relay, '/relay/value')).then((snapshot) => {
             if (!snapshot.exists()) return response400(res, 'Data tidak ditemukan');
             return res.status(200).json({
                 success: true,
@@ -37,7 +37,7 @@ async function storeRelay(req, res) {
         if (!error.isEmpty()) return response400(res, error.array().map(e => e.msg));
         const apikey = req.headers['x-api-key'];
 
-        await set(ref(dbFire, 'relay/' + apikey), {
+        await set(ref(dbFire, apikey + '/relay'), {
             value: req.body.value
         });
         return res.status(200).json({
@@ -59,9 +59,9 @@ async function getServo(req, res) {
 
         const apikey = req.headers['x-api-key'];
 
-        const servo = ref(dbFire, 'servo');
+        const servo = ref(dbFire, apikey);
 
-        get(child(servo, apikey + '/value')).then((snapshot) => {
+        get(child(servo, '/serve/value')).then((snapshot) => {
             if (!snapshot.exists()) return response400(res, 'Data tidak ditemukan');
             return res.status(200).json({
                 success: true,
@@ -83,7 +83,7 @@ async function storeServo(req, res) {
 
         const apikey = req.headers['x-api-key'];
 
-        await set(ref(dbFire, 'servo/' + apikey), {
+        await set(ref(dbFire, apikey + '/servo'), {
             value: req.body.value
         });
         return res.status(200).json({
