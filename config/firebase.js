@@ -1,6 +1,7 @@
 "use strict"
 
 const { initializeApp } = require('firebase/app');
+const { getAuth } = require('firebase/auth');
 const { getDatabase } = require('firebase/database');
 
 require('dotenv').config();
@@ -19,9 +20,11 @@ const firebaseConfig = {
 // init firebase
 
 const fire = initializeApp(firebaseConfig);
-const dbFire = getDatabase(fire)
+const dbFire = getDatabase(fire);
+const signIn = getAuth(fire);
 
 module.exports = {
     fire,
-    dbFire
+    dbFire,
+    signIn
 };
