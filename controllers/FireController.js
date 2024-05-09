@@ -1,6 +1,6 @@
 "use strict";
 
-const { ref, onValue, set, get, child } = require("firebase/database");
+const { ref, onValue, set, get, child, update } = require("firebase/database");
 const { dbFire } = require("../config/firebase");
 const { response500, response400, response403 } = require("../helpers/response");
 const { validationResult } = require("express-validator");
@@ -37,7 +37,7 @@ async function storeRelay(req, res) {
         if (!error.isEmpty()) return response400(res, error.array().map(e => e.msg));
         const apikey = req.headers['x-api-key'];
 
-        await set(ref(dbFire, apikey + '/relay'), {
+        await update(ref(dbFire, apikey + '/relay'), {
             value: req.body.value
         });
         return res.status(200).json({
@@ -83,9 +83,14 @@ async function storeServo(req, res) {
 
         const apikey = req.headers['x-api-key'];
 
-        await set(ref(dbFire, apikey + '/servo'), {
+        // await set(ref(dbFire, apikey + '/servo'), {
+        //     value: req.body.value
+        // });
+
+        await update(ref(dbFire, apikey + '/servo'), {
             value: req.body.value
-        });
+        })
+
         return res.status(200).json({
             success: true,
             code: 200,
