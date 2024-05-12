@@ -36,9 +36,9 @@ async function storeRelay(req, res) {
         const error = validationResult(req);
         if (!error.isEmpty()) return response400(res, error.array().map(e => e.msg));
         const apikey = req.headers['x-api-key'];
-
-        await update(ref(dbFire, apikey + '/relay'), {
-            value: req.body.value
+        const value = req.body.value;
+        await set(ref(dbFire, apikey + '/servo'), {
+            value
         });
         return res.status(200).json({
             success: true,
@@ -83,13 +83,14 @@ async function storeServo(req, res) {
 
         const apikey = req.headers['x-api-key'];
 
-        // await set(ref(dbFire, apikey + '/servo'), {
-        //     value: req.body.value
-        // });
+        const value = req.body.value;
+        await set(ref(dbFire, apikey + '/servo'), {
+            value
+        });
 
-        await update(ref(dbFire, apikey + '/servo'), {
-            value: req.body.value
-        })
+        // await update(ref(dbFire, apikey + '/servo'), {
+        //     value
+        // })
 
         return res.status(200).json({
             success: true,
