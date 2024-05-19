@@ -17,8 +17,6 @@ async function login(req, res) {
         const user = await Users.findOne({ where: { email: req.body.email } });
         if (!user) return response404(res, 'Email tidak terdaftar');
 
-        console.log(user);
-
         const check = await bcrypt.compare(req.body.password, user.password);
         if (!check) return response400(res, 'Password anda salah');
 
@@ -33,6 +31,7 @@ async function login(req, res) {
         user.token = token;
         await user.save();
 
+
         return res.status(200).json({
             success: true,
             code: 200,
@@ -41,7 +40,7 @@ async function login(req, res) {
                 _id: user.id,
                 name: user.name,
                 email: user.email,
-                api: user.apiKey,
+                apikey: user.apikey,
                 token: token
             }
         });
