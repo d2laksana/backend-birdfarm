@@ -53,10 +53,11 @@ async function showDHT(req, res) {
         const queryApi = influxClient.getQueryApi(process.env.INFLUX_ORG);
         const fluxQuery = `from(bucket: "${process.env.INFLUX_BUCKET}")
         |> range(start: -1h)
-  |> filter(fn: (r) => r["_measurement"] == "suhu")
-  |> filter(fn: (r) => r["_field"] == "humidity" or r["_field"] == "temperature")
-  |> filter(fn: (r) => r["apikey"] == "${apikey}")
-  |> yield(name: "last")`;
+        |> filter(fn: (r) => r["_measurement"] == "suhu")
+        |> filter(fn: (r) => r["_field"] == "humidity" or r["_field"] == "temperature")
+        |> filter(fn: (r) => r["apikey"] == "${apikey}")
+        |> yield(name: "last")
+        |> limit(n:1)`;
         const result = [];
         queryApi.queryRows(fluxQuery, {
             next(row, tableMeta) {
