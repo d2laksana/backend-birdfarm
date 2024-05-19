@@ -61,7 +61,7 @@ async function getServo(req, res) {
 
         const servo = ref(dbFire, apikey);
 
-        get(child(servo, '/serve/value')).then((snapshot) => {
+        get(child(servo, '/servo/value')).then((snapshot) => {
             if (!snapshot.exists()) return response400(res, 'Data tidak ditemukan');
             return res.status(200).json({
                 success: true,
