@@ -60,11 +60,14 @@ async function showDHT(req, res) {
         |> group(columns: ["_field"])
         |> limit(n: 1)
         `;
-        const result = [];
+        const results = { humidity: [], temperature: [] };
         queryApi.queryRows(fluxQuery, {
             next(row, tableMeta) {
                 const obj = tableMeta.toObject(row);
-                result.push(obj);
+                const field = obj._field;
+                if (field === 'humidity' || field === 'temperature') {
+                    results[field].push(obj);
+                }
             },
             error(error) {
                 console.error(error);
