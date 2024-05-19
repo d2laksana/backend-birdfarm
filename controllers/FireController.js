@@ -37,7 +37,7 @@ async function storeRelay(req, res) {
         if (!error.isEmpty()) return response400(res, error.array().map(e => e.msg));
         const apikey = req.headers['x-api-key'];
         const value = req.body.value;
-        await set(ref(dbFire, apikey + '/servo'), {
+        await set(ref(dbFire, apikey + '/relay'), {
             value
         });
         return res.status(200).json({
