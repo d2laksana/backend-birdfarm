@@ -82,7 +82,7 @@ async function showDHT(req, res) {
                     success: true,
                     code: 200,
                     message: 'Data fetched successfully',
-                    data: result
+                    data: results
                 });
             }
         });
