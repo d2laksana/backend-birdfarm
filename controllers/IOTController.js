@@ -56,8 +56,10 @@ async function showDHT(req, res) {
         |> filter(fn: (r) => r["_measurement"] == "suhu")
         |> filter(fn: (r) => r["_field"] == "humidity" or r["_field"] == "temperature")
         |> filter(fn: (r) => r["apikey"] == "${apikey}")
-        |> yield(name: "last")
-        |> limit(n:1)`;
+        |> sort(columns: ["_time"], desc: true)
+        |> group(columns: ["_field"])
+        |> limit(n: 1)
+        `;
         const result = [];
         queryApi.queryRows(fluxQuery, {
             next(row, tableMeta) {
