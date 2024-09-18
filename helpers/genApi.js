@@ -1,9 +1,9 @@
 "use strict";
 
-const { randomBytes } = require("crypto")
+const { v4: uuidv4 } = require('uuid');
 
 const genApiKey = () => {
-    return randomBytes(32).toString('hex');
+    return uuidv4();
 }
 
 module.exports = genApiKey;
